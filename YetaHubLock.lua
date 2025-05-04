@@ -1,4 +1,3 @@
-
 -- YetaHub Splash Screen by Faheem (GothamBlack + Music)
 local TweenService = game:GetService("TweenService")
 local CoreGui = game:GetService("CoreGui")
