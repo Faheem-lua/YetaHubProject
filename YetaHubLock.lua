@@ -1,38 +1,62 @@
--- YETAHUB Loader with Blur, Music, and Title
-local Players = game:GetService("Players")
+
+-- YetaHub Splash Screen by Faheem (GothamBlack + Music)
 local TweenService = game:GetService("TweenService")
-local SoundService = game:GetService("SoundService")
-local player = Players.LocalPlayer
+local CoreGui = game:GetService("CoreGui")
+local Lighting = game:GetService("Lighting")
 
-local screenGui = Instance.new("ScreenGui", game:GetService("CoreGui"))
-screenGui.Name = "YETAHUB_Loader"
+-- Screen GUI
+local splashGui = Instance.new("ScreenGui", CoreGui)
+splashGui.Name = "FaheemSplash"
+splashGui.ResetOnSpawn = false
 
-local blur = Instance.new("BlurEffect", game:GetService("Lighting"))
-blur.Size = 25
+-- Blur
+local blur = Instance.new("BlurEffect", Lighting)
+blur.Size = 24
 
-local frame = Instance.new("Frame", screenGui)
-frame.Size = UDim2.new(0.5, 0, 0.5, 0)
-frame.Position = UDim2.new(0.25, 0, 0.25, 0)
-frame.BackgroundTransparency = 1
-
-local label = Instance.new("TextLabel", frame)
-label.Size = UDim2.new(1, 0, 1, 0)
-label.Position = UDim2.new(0, 0, 0, 0)
-label.Text = "MADE BY FAHEEM"
-label.TextColor3 = Color3.new(1, 0, 0)
-label.Font = Enum.Font.FredokaOne
-label.TextScaled = true
-label.BackgroundTransparency = 1
-
-local music = Instance.new("Sound", SoundService)
-music.SoundId = "rbxassetid://1837465557"
-music.Volume = 1
+-- Music (looped)
+local music = Instance.new("Sound", splashGui)
+music.SoundId = "rbxassetid://9129219802" -- Replace with your preferred sound ID
+music.Volume = 0.8
 music.Looped = true
 music:Play()
 
-label.TextTransparency = 1
-TweenService:Create(label, TweenInfo.new(2), {TextTransparency = 0}):Play()
+-- Splash Text
+local splashText = Instance.new("TextLabel", splashGui)
+splashText.Size = UDim2.new(1, 0, 1, 0)
+splashText.Position = UDim2.new(0, 0, 0, 0)
+splashText.Text = "M A D E  B Y  F A H E E M"
+splashText.Font = Enum.Font.GothamBlack
+splashText.TextScaled = true
+splashText.TextColor3 = Color3.fromRGB(255, 0, 0)
+splashText.BackgroundTransparency = 1
+splashText.TextStrokeTransparency = 0.5
+splashText.TextStrokeColor3 = Color3.new(0, 0, 0)
 
+local stroke = Instance.new("UIStroke")
+stroke.Thickness = 2
+stroke.Color = Color3.new(0, 0, 0)
+stroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Contextual
+stroke.Parent = splashText
+
+-- Fade Out (Text + Music + Blur)
+task.delay(3, function()
+	TweenService:Create(splashText, TweenInfo.new(2), {
+		TextTransparency = 1,
+		TextStrokeTransparency = 1
+	}):Play()
+
+	TweenService:Create(music, TweenInfo.new(2), { Volume = 0 }):Play()
+
+	TweenService:Create(blur, TweenInfo.new(2), { Size = 0 }):Play()
+
+	task.wait(2)
+	music:Stop()
+	splashGui:Destroy()
+	blur:Destroy()
+end)
+
+
+-- Lockin Hub Script Starts Here --
 
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
